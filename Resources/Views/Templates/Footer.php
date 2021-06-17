@@ -1,6 +1,6 @@
     <footer>
         <hr>
-       <?= 'DATA ATUAL' . date('d/m/Y') ?>
+       <?= 'DATE NOW ' . date('d/m/Y') ?>
     </footer>
 </body>
 </html>

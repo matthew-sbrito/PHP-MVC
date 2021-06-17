@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller\Pages;
 
-use App\Controller\Pages\Page;
 use App\Models\Home as ModelHome;
 
 class Home extends Page{

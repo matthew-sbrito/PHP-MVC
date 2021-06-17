@@ -58,7 +58,7 @@ class Request{
      *   @return string
      */
     public function getUri(){
-        return $this->httpMethod;
+        return $this->uri;
     }
 
     /** 

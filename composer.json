@@ -1,6 +1,6 @@
 {
-    "name":"projeto/modelo",
-    "description": "Modelo de projeto padrão MVC, para futuros projetos em PHP!",
+    "name":"project/model",
+    "description": "Design pattern MVC for future PHP projects!",
     "autoload": {
         "psr-4": {
             "App\\": "App/"
