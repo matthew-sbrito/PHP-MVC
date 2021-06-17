@@ -20,8 +20,6 @@ This repository is intended to help you start a PHP project!
     sudo mv composer.phar /usr/local/bin/composer
 ~~~
 
-    References: https://getcomposer.org/download/
-
 ### Installing composer on the project
 
     Composer.json and composer.lock will be loaded!
@@ -52,3 +50,4 @@ This repository is intended to help you start a PHP project!
 # References
 
     https://www.youtube.com/watch?v=7fxguLAebl4
+    https://getcomposer.org/download/ 
