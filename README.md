@@ -5,9 +5,7 @@ This repository is intended to help you start a PHP project!
 
 ### Download Repository:
 
-~~~zsh
-    git clone https://github.com/matthew-sbrito/PHP-MVC.git
-~~~
+`git clone https://github.com/matthew-sbrito/PHP-MVC.git`
 
 ### Download Composer for linux:
 
@@ -22,15 +20,13 @@ This repository is intended to help you start a PHP project!
 
 ## Installing composer on the project
 
-    Composer.json and composer.lock will be loaded!
+Composer.json and composer.lock will be loaded!
 
-~~~zsh
-    composer install
-~~~
+`composer install`
 
 ## To change namespace
 
-    Change the namespace ("App\\") and the folder ("App/").
+Change the namespace ("App\\") and the folder ("App/").
 
 ~~~json
     {
@@ -43,10 +39,9 @@ This repository is intended to help you start a PHP project!
     }
 }
 ~~~
-    Now
-~~~zsh
-    composer dump
-~~~
+Now 
+
+`composer dump`
 # References
 
     https://www.youtube.com/watch?v=7fxguLAebl4
