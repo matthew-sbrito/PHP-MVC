@@ -20,7 +20,7 @@ This repository is intended to help you start a PHP project!
     sudo mv composer.phar /usr/local/bin/composer
 ~~~
 
-### Installing composer on the project
+## Installing composer on the project
 
     Composer.json and composer.lock will be loaded!
 
@@ -28,7 +28,7 @@ This repository is intended to help you start a PHP project!
     composer install
 ~~~
 
-### To change namespace
+## To change namespace
 
     Change the namespace ("App\\") and the folder ("App/").
 
