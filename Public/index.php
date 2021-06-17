@@ -2,8 +2,20 @@
 
 require_once(realpath(dirname(__FILE__,2) . '/config/config.php'));
 
-use App\Controller\Pages\Home;
-use App\Controller\Pages\Vagas;
+use \App\Http\Router;
+use \App\Http\Response;
+use \App\Controller\Pages\Home;
 
-Home::getHome();
-Vagas::getVagas();
+define('URL','http://www.modelo.com/');
+
+$obRouter = new Router(URL);
+
+//ROTA HOME 
+$obRouter->get('/',[
+    function(){
+        return new Response(200,Home::getHome());
+    }
+]);
+
+$obRouter->run()
+         ->sendResponse();
