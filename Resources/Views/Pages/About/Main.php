@@ -4,4 +4,4 @@
 
 {{users}}
 
-<a href="/home">Home</a>
+<a href='{{URL}}/home'>Home</a>

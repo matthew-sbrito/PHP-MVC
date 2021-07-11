@@ -4,8 +4,7 @@ require_once(realpath(dirname(__FILE__,2) . '/config/config.php'));
 
 use \App\Http\Router;
 use \App\Utils\View;
-
-define('URL','http://www.modelo.com');
+use \App\Utils\Environment;
 
 //DEFINE O VALOR PADRÃO DAS VARIÁVEIS
 View::init([
