@@ -2,7 +2,8 @@
 
 namespace App\Utils;
 
-class View{
+class View
+{
 
     /**
      * Váriaveis padrões da view
@@ -15,7 +16,8 @@ class View{
      *  Método responsável por definir os dados iniciais da classe
      * @param array $vars
      */
-    public static function init($vars = []){
+    public static function init($vars = [])
+    {
         self::$vars = $vars;
     }
     /**
@@ -23,8 +25,9 @@ class View{
      * @param string $view
      * @return string
      */
-    private static function getContentView($view){
-        $file = __DIR__.'/../../Resources/Views/'. $view .'.php';
+    private static function getContentView($view)
+    {
+        $file = __DIR__ . '/../../Resources/Views/' . $view . '.php';
         return file_exists($file) ? $file : '';
     }
 
@@ -36,44 +39,22 @@ class View{
      * @return string
      */
 
-    public static function render($view, $params = []){
+    public static function render($view, $params = [])
+    {
         // CONTEUDO DA VIEW
         $contentView = self::getContentView($view);
-        
+
+        $contentView = file_get_contents($contentView);
+
         //Merge de váriaveis da view
-        $vars = array_merge(self::$vars, $params);
+        $vars   = array_merge(self::$vars, $params);
+        $keys   = array_keys($vars);
+        $values = array_values($vars);
 
-        // Pega o array e tranforma em variaveis
-        if(count($params) > 0) {
-            foreach($params as $key => $value) {
-                if(strlen($key) > 0) {
-                    ${$key} = $value;
-                }
-            }
-        }
-        $user = $_SESSION['user'];
+        $keys = array_map(function ($item) {
+            return '{{' . $item . '}}';
+        }, $keys);
 
-        //Retorna Conteúdo Renderizado
-        require_once($contentView);
-    }
-
-    public static function renderTemplate($view, $params = []){
-        // CONTEUDO DA VIEW
-        $contentView = self::getContentView($view);
-        
-        // Pega o array e tranforma em variaveis
-        if(count($params) > 0) {
-            foreach($params as $key => $value) {
-                if(strlen($key) > 0) {
-                    ${$key} = $value;
-                }
-            }
-        }
-        $user = $_SESSION['user'];
-
-        //Retorna Conteúdo Renderizado
-        require_once(TEMPLATE_PATH. '/Header.php');
-        require_once($contentView);
-        require_once(TEMPLATE_PATH. '/Footer.php');
+        return str_replace($keys, $values, $contentView);
     }
 }

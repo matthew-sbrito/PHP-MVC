@@ -1,0 +1,27 @@
+{
+  "Status": "Success",
+  "Dados": 
+    [
+      {
+        "name": "Matheus",
+        "age": "19"
+      },
+      {
+          "name": "Lucas",
+          "age": "23"
+      },
+      {
+          "name": "Breno",
+          "age": "19"
+      },
+      {
+        "name": "thiago",
+        "age": "20"
+      }
+    ],
+  "User": 
+  [
+    { "name":"Matheus" }
+  ]
+  
+}

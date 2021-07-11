@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-class Home{
+class HomeRepository{
 
     /**
      *  Método responsável por retornar o conteúdo (view) da home.
@@ -10,8 +10,8 @@ class Home{
     public static function getData(){       
         $arr = [
             [
-            'nome' => 'Matheus Brito',
-            'idade' => 19
+            'name' => 'Matheus Brito',
+            'age' => 19
             ]
         ];
 

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once(realpath(dirname(__FILE__,2) . '/config/config.php'));
 
 use \App\Http\Router;
@@ -16,8 +16,9 @@ View::init([
 $obRouter = new Router(URL);
 
 //INCLUDE PARA AS ROTAS
-include(realpath(dirname(__FILE__,2) . '/Routes/Pages.php'));
+include(realpath(dirname(__FILE__,2) . '/Router/Routes.php'));
 
 //IMPRIME O RESPONSE DA ROTA
+
 $obRouter->run()
          ->sendResponse();

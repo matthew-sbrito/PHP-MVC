@@ -35,14 +35,27 @@ class Request{
     private $headers = [];
 
     /**
+     *  Router da página
+     * @var array
+     */
+    private $router = [];
+
+    /**
      *  Construtor da classe 
      */
-    public function __construct(){
+    public function __construct($router){
+        $this->router       = $router;
         $this->queryParams  = $_GET ?? [];
         $this->postVars     = $_POST ?? [];
         $this->headers      = getallheaders();
         $this->httpMethod   = $_SERVER['REQUEST_METHOD'] ?? '';
-        $this->uri          = $_SERVER['REQUEST_URI'] ?? '';
+        $this->setUri();
+    }
+    
+    public function setUri(){
+        $uri = $_SERVER['REQUEST_URI'] ?? '';
+        $xUri = explode('?', $uri); 
+        $this->uri = $xUri[0];
     }
    
     /** 
