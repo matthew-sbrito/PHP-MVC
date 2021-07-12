@@ -12,12 +12,12 @@ View::init([
 ]);
 
 // INICIA O ROUTER
-$obRouter = new Router(URL);
+$router = new Router(URL);
 
 //INCLUDE PARA AS ROTAS
 include(realpath(dirname(__FILE__,2) . '/Router/Routes.php'));
 
 //IMPRIME O RESPONSE DA ROTA
 
-$obRouter->run()
+$router->run()
          ->sendResponse();

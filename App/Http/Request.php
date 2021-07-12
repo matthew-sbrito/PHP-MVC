@@ -36,7 +36,7 @@ class Request{
 
     /**
      *  Router da página
-     * @var array
+     * @var Router
      */
     private $router = [];
 
@@ -52,12 +52,19 @@ class Request{
         $this->setUri();
     }
     
-    public function setUri(){
+    private function setUri(){
         $uri = $_SERVER['REQUEST_URI'] ?? '';
         $xUri = explode('?', $uri); 
         $this->uri = $xUri[0];
     }
-   
+
+    /** 
+     *  Método responsável por retornar o router
+     *   @return Router
+     */
+    public function getRouter(){
+        return $this->router;
+    }
     /** 
      *  Método responsável por retornar o metodo HTTP da requisição
      *   @return string
@@ -97,4 +104,5 @@ class Request{
     public function getPostVars(){
         return $this->postVars;
     }
+
 }

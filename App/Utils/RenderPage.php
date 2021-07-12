@@ -2,8 +2,7 @@
 
 namespace App\Utils;
 
-class RenderPage
-{
+class RenderPage {
 
     private static function getHeader()
     {
@@ -47,6 +46,46 @@ class RenderPage
             'header' => $header,
             'content' => $content,
             'footer' => $footer,
+        ]);
+    }
+
+    public static function getPagination($request, $pagination){
+        $pages = $pagination->getPages();        
+        
+        if(count($pages) <= 1) return '';
+        
+        $links = '';
+        
+        $url = $request->getRouter()->getCurrentUrl();
+        
+        $queryParams = $request->getQueryParams();
+        foreach($pages as $page){
+            
+            $queryParams['page'] = $page['page'];
+            $link = $url . '?' . http_build_query($queryParams);            
+                        
+            $links .= View::render('Pagination/Link', [
+                'page' => $page['page'],
+                'link' => $link,
+                'active' => $page['current'] ? 'active' : '',
+            ]);
+        }
+
+        $pagesFull = $pagination->getTotalPage();
+        $currentPage = $pagination->getCurrentPage();
+        
+        $pPage = $currentPage - 1;
+        $nPage = $currentPage + 1;
+        $previous['page'] =  $pPage <= 0 ? 1 : $pPage;
+        $next['page'] = $nPage > $pagesFull ? $pagesFull : $nPage;
+
+        $linkPrevious = $url . '?' . http_build_query($previous) ;            
+        $linkNext = $url . '?' . http_build_query($next);
+        
+        return View::render('Pagination/Box',[
+            'links' => $links,
+            'previous' => $linkPrevious,
+            'next' => $linkNext,
         ]);
     }
 }

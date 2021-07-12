@@ -10,6 +10,7 @@ header("Access-Control-Allow-Headers: *");
 define('TEMPLATE_PATH', realpath(dirname(__FILE__,2). '/Resources/Views/Templates'));
 
 use App\Utils\Environment;
+use App\Database\Database;
 
 //CARREGA VÁRIAVEIS DE AMBIENTE
 $envPath = realpath(dirname(__FILE__,2));
@@ -18,3 +19,9 @@ Environment::load($envPath);
 define('URL', getenv('URL'));
 define('API_SERVER', getenv('API_SERVER'));
 
+Database::config(
+  getenv('DB_HOST'),
+  getenv('DB_NAME'),
+  getenv('DB_USER'),
+  getenv('DB_PASSWORD'),
+);

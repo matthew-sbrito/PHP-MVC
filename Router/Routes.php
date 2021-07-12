@@ -5,27 +5,27 @@ use \App\Controller;
 
 
 //ROTA HOME 
-$obRouter->get('/',[
-    function(){
-        return new Response(200,Controller\HomeController::getHome());
+$router->get('/',[
+    function($request){
+        return new Response(200,Controller\HomeController::goHome($request));
     }
 ]);
 
-$obRouter->get('/home',[
-    function(){
-        return new Response(200,Controller\HomeController::getHome());
+$router->get('/home',[
+    function($request){
+        return new Response(200,Controller\HomeController::getHome($request));
     }
 ]);
 
 //ROTA SOBRE
-$obRouter->get('/about',[
+$router->get('/about',[
     function(){
         return new Response(200,Controller\AboutController::getAbout());
     }
 ]);
 
 //ROTA DINÂMICA
-$obRouter->get('/page/{idPage}/{action}',[
+$router->get('/page/{idPage}/{action}',[
     function($idPage, $action){
         return new Response(200, 'Page' . $idPage. ' - ' . $action);
     }
