@@ -12,8 +12,8 @@ class AboutController extends RenderPage{
         $content = '';
         foreach($users as $user){
            $content .= View::render('Pages/About/Users',[
-                'name' => $user->name,
-                'age' => $user->age,
+                'name' => $user->NOME,
+                'age' => date('d/m/Y', strtotime($user->NASCIMENTO)),
             ]);
         }
         return $content;

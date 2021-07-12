@@ -3,8 +3,14 @@
 
 
 <a href='{{URL}}/about'>About</a>
+<form method="get">
+        NOME<input type="text" name="nome">
+        SEXO<input type="text" name="sexo">
+        <button>Filtrar</button>
+</form>
 <table class="table table-dark table-striped">
 <thead>
+        <th>CÓDIGO</th>
         <th>NOME</th>
         <th>EMAIL</th>
         <th>SEXO</th>
