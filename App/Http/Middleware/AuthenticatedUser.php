@@ -13,7 +13,7 @@ class AuthenticatedUser {
   public function handle($request, $next){
     $user = $_SESSION['user'] ?? $_SESSION['usuario'];
     if(empty($user)){
-      throw new \Exception('Você precisa está logado para acessar essa página',200);
+      throw new \Exception('Você precisa está logado para acessar essa página',401);
     }
     return $next($request);
   }

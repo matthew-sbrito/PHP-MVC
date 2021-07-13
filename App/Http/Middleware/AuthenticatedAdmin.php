@@ -13,9 +13,9 @@ class AuthenticatedAdmin {
   public function handle($request, $next){
     $user = $_SESSION['user'] ?? $_SESSION['usuario'];
     if(empty($user)){
-      throw new \Exception('Você precisa está logado para acessar essa página',200);
+      throw new \Exception('Você precisa está logado para acessar essa página',401);
     }elseif(!$user->IS_ADMIN){
-      throw new \Exception('Você não é um administrador',200);
+      throw new \Exception('Você não é um administrador',401);
     }
     return $next($request);
   }
