@@ -4,48 +4,45 @@ namespace App\Utils;
 
 class RenderPage {
 
-    private static function getHeader()
-    {
-        if ($_SESSION['user']) {
-            $contentHeader = View::render('Templates/Header/DropdownUser', [
-                'name' => $_SESSION['user']->name,
-            ]);
-        } else {
-            $contentHeader = View::render('Templates/Header/LoginBotton');
-        }
-
-        return View::render('Templates/Header/Header', [
-            'contentHeader' => $contentHeader,
-        ]);
-    }
-
-    private static function getFooter()
-    {
-        return View::render('Templates/Footer/Footer', [
-            'date' => date('Y-m-d'),
-        ]);
-    }
-
+    
     /**
      *  Método responsável por retornar o conteúdo (view).
      *  @return string
      */
     public static function getPage($title, $content, $template = true)
     {
-
-        if ($template) {
-            $header = self::getHeader();
-            $footer = self::getFooter();
-        } else {
-            $header = '';
-            $footer = '';
-        }
-
-        return View::render('Pages/Page', [
+        return View::render('Page', [
             'title' => $title,
-            'header' => $header,
+            'header' => $template ? self::getHeader() : '',
             'content' => $content,
-            'footer' => $footer,
+            'footer' => $template ? self::getFooter() : '',
+        ]);
+    }
+    
+    private static function getHeader(){
+        $user = $_SESSION['user'] || $_SESSION['usuario'];
+
+        $loginBotton = View::render('Templates/Header/LoginButton');
+        $contentHeader = self::getContentHeader($user);
+
+        return View::render('Templates/Header/Header', [
+            'contentHeader' => $contentHeader ? $contentHeader : $loginBotton,
+        ]);
+    }
+    private static function getContentHeader($user){
+        if (empty($user)) return null;
+
+        $admin = '<li><a href="/admin">Admin</a></li>';
+        
+        return View::render('Templates/Header/DropdownButton', [
+            'name' => $user->name,
+            'admin' => $user->admin ? $admin : '',
+        ]);
+    }
+
+    private static function getFooter(){
+        return View::render('Templates/Footer/Footer', [
+            'date' => date('Y-m-d'),
         ]);
     }
 

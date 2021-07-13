@@ -1,9 +1,9 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Pages;
 
-use App\Models\UsersRepository;
 use App\Utils\View;
 use App\Utils\RenderPage;
+use App\Models\UsersRepository;
 
 class AboutController extends RenderPage{
 
@@ -11,7 +11,7 @@ class AboutController extends RenderPage{
         $users = UsersRepository::getAllUsers();
         $content = '';
         foreach($users as $user){
-           $content .= View::render('Pages/About/Users',[
+           $content .= View::render('About/Users',[
                 'name' => $user->NOME,
                 'age' => date('d/m/Y', strtotime($user->NASCIMENTO)),
             ]);
@@ -27,7 +27,7 @@ class AboutController extends RenderPage{
               
         $users = self::getUsersView();
         
-        $content = View::render('Pages/About/Main', [
+        $content = View::render('About/Main', [
             'name' => 'Matheus Brito',
             'age' => 19,
             'users' => $users

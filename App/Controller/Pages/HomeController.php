@@ -1,10 +1,10 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Pages;
 
-use App\Models\UsersRepository;
 use App\Utils\View;
 use App\Utils\RenderPage;
 use App\Utils\Pagination;
+use App\Models\UsersRepository;
 
 class HomeController extends RenderPage{
 
@@ -16,7 +16,7 @@ class HomeController extends RenderPage{
         
         $items = self::getItems($request, $pagination);
 
-        $content = View::render('Pages/Home/Main', [
+        $content = View::render('Home/Main', [
             'items' => $items ? $items : '<tr><td colspan="5">Nenhum Resultado encontrado!</td></tr>',
             'pagination' => parent::getPagination($request, $pagination),
         ]);
@@ -40,7 +40,7 @@ class HomeController extends RenderPage{
         $users = UsersRepository::getAllUsers($where, ' NOME ASC ', $limit);
         
         foreach($users as $user){
-           $itens .= View::render('Pages/Home/Items',[
+           $itens .= View::render('Home/Items',[
                 'cod' => $user->COD,
                 'name' => $user->NOME,
                 'email' => $user->EMAIL,

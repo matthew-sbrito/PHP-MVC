@@ -20,7 +20,7 @@ Middleware::setMap([
 
 //MIDDLEWARES PADRÕES (EXECUTADOS EM TODAS AS ROTAS)
 Middleware::setDefault([
- 'maintenance', 
+ 'maintenance',
 ]);
 
 // INICIA O ROUTER

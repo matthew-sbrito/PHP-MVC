@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Utils\Messages;
+
 class AuthenticatedAdmin {
 
   /**
@@ -13,9 +15,11 @@ class AuthenticatedAdmin {
   public function handle($request, $next){
     $user = $_SESSION['user'] ?? $_SESSION['usuario'];
     if(empty($user)){
-      throw new \Exception('Você precisa está logado para acessar essa página',401);
+      Messages::setError('Você precisa está logado para acessar essa página', 'admin/login');
+      // throw new \Exception('Você precisa está logado para acessar essa página',401);
     }elseif(!$user->IS_ADMIN){
-      throw new \Exception('Você não é um administrador',401);
+      Messages::setError('Você não é um administrador', 'home');
+      // throw new \Exception('Você não é um administrador',401);
     }
     return $next($request);
   }

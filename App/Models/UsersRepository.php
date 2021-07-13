@@ -14,4 +14,16 @@ class UsersRepository {
                                       ->fetchObject()
                                       ->qtd;
     }
+    public static function login($username,$password){
+      $user = (new Database('USUARIO'))->select("EMAIL = '${username}'");
+      if($user){
+        if(password_hash($user->password, $password)){
+          return $user;
+        }else{
+          return 'Dados Incorretos';
+        }
+      }else{
+        return 'Usuário inexistente';
+      }
+    }
 }
