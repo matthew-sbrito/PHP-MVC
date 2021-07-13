@@ -85,6 +85,16 @@ class Response{
         switch($this->contentType){
             case 'text/html':
                 echo $this->content;
+                break;
+            case 'application/json':
+                if($this->httpCode == 200){
+                    echo json_encode(array("Status" =>  "Success", "Data"     => $this->content));
+                }else{
+                    echo json_encode(array("Status" =>  "Error",   "Message"  => $this->content));
+                }
+                break;
+            default:
+                echo $this->content;
                 exit;
         }
     }

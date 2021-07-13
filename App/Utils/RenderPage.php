@@ -50,7 +50,7 @@ class RenderPage {
     }
 
     public static function getFilterByParams($queryParams){
-
+        unset($queryParams['page']); 
         foreach($queryParams as $key => $value){
             $conditions[] = $key . ' LIKE "%'. str_replace(' ','%',$value).'%"';
         }
@@ -67,7 +67,7 @@ class RenderPage {
             }
         }
 
-        return implode('&', $conditions);
+        return implode('&',$conditions);
     }
 
     public static function getPagination($request, $pagination){
@@ -78,8 +78,7 @@ class RenderPage {
         $links = '';
         
         $conditions = self::changePage($request->getQueryParams()); 
-
-        $url = $request->getRouter()->getCurrentUrl() .'?'. str_replace(' AND ','&', $conditions) . '&';
+        $url = $request->getRouter()->getCurrentUrl() .'?'. $conditions . '&';
         
         $pagesFull = $pagination->getTotalPage();
         $currentPage = $pagination->getCurrentPage();
@@ -105,8 +104,8 @@ class RenderPage {
         $linkNext = $url . http_build_query($next);
         
         return View::render('Pagination/Box',[
-            'links' => $links,
             'previous' => $linkPrevious,
+            'links' => $links,
             'next' => $linkNext,
         ]);
     }

@@ -5,6 +5,8 @@ namespace App\Http;
 use \Closure;
 use \Exception;
 use \ReflectionFunction;
+use \App\Http\Middleware\Queue as Middleware;
+
 class Router{
     
     /**
@@ -59,7 +61,7 @@ class Router{
      * @param string
      * @param array
      */
-    private function addRouter($method, $route, $params = []){
+    private function addRoute($method, $route, $params = []){
         
         //VALIDAÇÃO DOS PARAMS
         foreach($params as $key => $value) {
@@ -69,6 +71,10 @@ class Router{
                 continue;
             }
         }  
+
+        //MIDDLEWARES DA ROTA
+        $params['middlewares'] = $params['middlewares'] ?? [];
+
         //VÁRIAVEIS DA ROTA
         $params['variables'] = [];
 
@@ -92,7 +98,7 @@ class Router{
      * @param array
      */
     public function get($route, $params = []){
-        return $this->addRouter('GET', $route, $params);
+        return $this->addRoute('GET', $route, $params);
     }
      
     /**
@@ -101,7 +107,7 @@ class Router{
      * @param array
      */
     public function post($route, $params = []){
-        return $this->addRouter('POST', $route, $params);
+        return $this->addRoute('POST', $route, $params);
     }
 
      /**
@@ -110,7 +116,7 @@ class Router{
      * @param array
      */
     public function put($route, $params = []){
-        return $this->addRouter('PUT', $route, $params);
+        return $this->addRoute('PUT', $route, $params);
     }
 
     /**
@@ -119,7 +125,7 @@ class Router{
      * @param array
      */
     public function delete($route, $params = []){
-        return $this->addRouter('DELETE', $route, $params);
+        return $this->addRoute('DELETE', $route, $params);
     }
 
     /**
@@ -200,9 +206,10 @@ class Router{
                 $args[$name] = $route['variables'][$name] ?? '';
             }
 
-            // RETORNA A EXECUÇÃO DA FUNÇÃO
-            return call_user_func_array($route['controller'], $args);
-            
+            // RETORNA A EXECUÇÃO DA FILA DE MIDDLEWARES
+            return (new Middleware($route['middlewares'],$route['controller'],$args))
+                    ->next($this->request);            
+
         }catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
         }

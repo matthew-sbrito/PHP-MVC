@@ -4,11 +4,23 @@ require_once(realpath(dirname(__FILE__,2) . '/config/config.php'));
 
 use \App\Http\Router;
 use \App\Utils\View;
-use \App\Utils\Environment;
+use \App\Http\Middleware\Queue as Middleware;
 
 //DEFINE O VALOR PADRÃO DAS VARIÁVEIS
 View::init([
     'URL' => URL
+]);
+
+//MAPEAMENTO DOS MIDDLEWARES
+Middleware::setMap([
+ 'maintenance' => \App\Http\Middleware\Maintenance::class,
+ 'authenticatedUser' => \App\Http\Middleware\AuthenticatedUser::class,
+ 'authenticatedAdmin' => \App\Http\Middleware\AuthenticatedAdmin::class,
+]);
+
+//MIDDLEWARES PADRÕES (EXECUTADOS EM TODAS AS ROTAS)
+Middleware::setDefault([
+ 'maintenance', 
 ]);
 
 // INICIA O ROUTER

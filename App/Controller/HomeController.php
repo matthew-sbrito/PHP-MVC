@@ -17,7 +17,7 @@ class HomeController extends RenderPage{
         $items = self::getItems($request, $pagination);
 
         $content = View::render('Pages/Home/Main', [
-            'items' => $items ? $items : 'Nenhum Resultado encontrado!',
+            'items' => $items ? $items : '<tr><td colspan="5">Nenhum Resultado encontrado!</td></tr>',
             'pagination' => parent::getPagination($request, $pagination),
         ]);
         
@@ -30,7 +30,6 @@ class HomeController extends RenderPage{
         $itens = '';
         $queryParams = $request->getQueryParams();
         $currentPage = $queryParams['page'] ?? 1;
-        unset($queryParams['page']); 
        
         $where = parent::getFilterByParams($queryParams);
         $quantity = UsersRepository::getQuantityUsers($where);
@@ -38,15 +37,15 @@ class HomeController extends RenderPage{
         $pagination = new Pagination($quantity, $currentPage, 2);
         $limit = $pagination->getLimit(); // responsavel por pegar os items corretos das paginas
 
-        $results = UsersRepository::getAllUsers($where, ' NOME ASC ', $limit);
+        $users = UsersRepository::getAllUsers($where, ' NOME ASC ', $limit);
         
-        foreach($results as $result){
+        foreach($users as $user){
            $itens .= View::render('Pages/Home/Items',[
-                'cod' => $result->COD,
-                'name' => $result->NOME,
-                'email' => $result->EMAIL,
-                'sex' => $result->SEXO,
-                'birthday' => date('d/m/Y',strtotime($result->NASCIMENTO)),
+                'cod' => $user->COD,
+                'name' => $user->NOME,
+                'email' => $user->EMAIL,
+                'sex' => $user->SEXO,
+                'birthday' => date('d/m/Y',strtotime($user->NASCIMENTO)),
             ]);
         }
         return $itens;
