@@ -34,3 +34,5 @@ include(realpath(dirname(__FILE__,2) . '/Router/Routes.php'));
 
 $router->run()
          ->sendResponse();
+
+        //  /home/tthew/fontes/php-mvc/Public/index.php
