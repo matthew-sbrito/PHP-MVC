@@ -1,10 +1,1 @@
-<button id="btn-modal-login">
-  Sign in
-</button>
-
-<style>
-  #btn-modal-login 
-  {
-    border: none;
-  }
-</style>
+<a class="btn btn-light" href="/admin/login">Sign in</a>

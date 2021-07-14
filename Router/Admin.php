@@ -12,13 +12,23 @@ $router->get('/admin',[
 ]);
 
 $router->get('/admin/login',[
+    'middlewares' => [
+        'checkLogged'
+    ],
     function($request){
         return new Response(200,LoginController::getViewLogin($request));
     }
 ]);
 
+
 $router->post('/admin/login',[
     function($request){
         return new Response(200,LoginController::authenticatedLogin($request));
+    }
+]);
+
+$router->get('/logout',[
+    function($request){
+        return new Response(200,LoginController::logout($request));
     }
 ]);

@@ -205,7 +205,6 @@ class Router{
                 $name = $parameter->getName();
                 $args[$name] = $route['variables'][$name] ?? '';
             }
-
             // RETORNA A EXECUÇÃO DA FILA DE MIDDLEWARES
             return (new Middleware($route['middlewares'],$route['controller'],$args))
                     ->next($this->request);            
@@ -221,5 +220,17 @@ class Router{
     public function getCurrentUrl(){
         return $this->url.$this->getUri();
     }
+
+    /**
+     * Método para redirecionar a página.
+     * @var string
+     */
+    public function redirect($route){
+        $url = $this->url.$route;
+
+        header("Location:".$url);
+        exit;
+    }
+
     
 }

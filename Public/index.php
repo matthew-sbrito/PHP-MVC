@@ -16,6 +16,7 @@ Middleware::setMap([
  'maintenance' => \App\Http\Middleware\Maintenance::class,
  'authenticatedUser' => \App\Http\Middleware\AuthenticatedUser::class,
  'authenticatedAdmin' => \App\Http\Middleware\AuthenticatedAdmin::class,
+ 'checkLogged' => \App\Http\Middleware\CheckLogged::class,
 ]);
 
 //MIDDLEWARES PADRÕES (EXECUTADOS EM TODAS AS ROTAS)

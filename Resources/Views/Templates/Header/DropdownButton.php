@@ -1,3 +1,4 @@
+<div class="dropdown"></div>
 <ul>
   <li>{{name}}</li>
   {{admin}}

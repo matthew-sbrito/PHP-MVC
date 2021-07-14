@@ -5,7 +5,7 @@ use \App\Controller\Pages;
 
 //ROTA SOBRE
 $router->get('/about',[
-    function(){
-        return new Response(200,Pages\AboutController::getAbout());
+    function($request){
+        return new Response(200,Pages\AboutController::getAbout($request));
     }
 ]);

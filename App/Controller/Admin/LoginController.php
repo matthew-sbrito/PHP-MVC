@@ -2,6 +2,8 @@
 namespace App\Controller\Admin;
 
 use App\Utils\View;
+use App\Utils\Messages;
+use App\Session\Session;
 use App\Models\UsersRepository;
 
 class LoginController extends RenderPage{
@@ -11,10 +13,13 @@ class LoginController extends RenderPage{
      *  @return string
      */
     public static function getViewLogin($request){
-        $content = View::render('Admin/Login',[
-
+      
+      $message = Messages::getMessage() ?? '';
+      $content = View::render('Admin/Login',[
+          'message' => $message,
         ]); 
-        return parent::getPage('Login',$content);
+      
+      return parent::getPage('Login',$content);
     }
     
 
@@ -22,8 +27,18 @@ class LoginController extends RenderPage{
 
       $post = $request->getPostVars();
       $user = UsersRepository::login($post['email'], $post['senha']);
-      $_SESSION['user'] = $user;
-      header('Location: /home');
+      if(is_object($user)){
+        Session::setUser($user);
+        Messages::setSuccess('Login efetuado!');
+        $request->getRouter()->redirect('/about');
+      }     
+    }
+
+    public static function logout($request){
+      
+      session_destroy();
+      $request->getRouter()->redirect('/about');
+      
     }
   }
     

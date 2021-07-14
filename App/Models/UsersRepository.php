@@ -2,8 +2,17 @@
  
 namespace App\Models;
 use App\Database\Database;
+use App\Utils\Messages;
 
 class UsersRepository {
+
+    public $cod;
+    public $nome;
+    public $email;
+    public $senha;
+    public $sexo;
+    public $nascimento;
+
     public static function getAllUsers($where = null,$order = null, $limit = null){
       return (new Database('USUARIO'))->selectCustom($where,$order,$limit)
                                       ->fetchAll(\PDO::FETCH_CLASS, self::class);
@@ -15,15 +24,15 @@ class UsersRepository {
                                       ->qtd;
     }
     public static function login($username,$password){
-      $user = (new Database('USUARIO'))->select("EMAIL = '${username}'");
-      if($user){
-        if(password_hash($user->password, $password)){
+      $user = (new Database('USUARIO'))->selectCustom("EMAIL = '${username}'")->fetchObject();
+      if(is_object($user)){
+        if(password_verify($password, $user->SENHA)){
           return $user;
         }else{
-          return 'Dados Incorretos';
+          Messages::setError('Dados Incorretos', 'admin/login');
         }
       }else{
-        return 'Usuário inexistente';
+        Messages::setError('Usuário inexistente', 'admin/login');
       }
     }
 }

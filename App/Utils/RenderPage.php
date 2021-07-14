@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Utils;
+use App\Session\Session;
 
 class RenderPage {
 
@@ -20,13 +21,15 @@ class RenderPage {
     }
     
     private static function getHeader(){
-        $user = $_SESSION['user'] || $_SESSION['usuario'];
+        $user = Session::getUser();
 
         $loginBotton = View::render('Templates/Header/LoginButton');
         $contentHeader = self::getContentHeader($user);
+        $message = Messages::getMessage();
 
         return View::render('Templates/Header/Header', [
             'contentHeader' => $contentHeader ? $contentHeader : $loginBotton,
+            'message' => $message
         ]);
     }
     private static function getContentHeader($user){
@@ -35,8 +38,8 @@ class RenderPage {
         $admin = '<li><a href="/admin">Admin</a></li>';
         
         return View::render('Templates/Header/DropdownButton', [
-            'name' => $user->name,
-            'admin' => $user->admin ? $admin : '',
+            'name' => $user->NOME,
+            'admin' => $user->IS_ADMIN ? $admin : '',
         ]);
     }
 
