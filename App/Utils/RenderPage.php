@@ -35,7 +35,7 @@ class RenderPage {
     private static function getContentHeader($user){
         if (empty($user)) return null;
 
-        $admin = '<li><a href="/admin">Admin</a></li>';
+        $admin = '<a class="dropdown-item" href="/admin/home">Admin</a>';
         
         return View::render('Templates/Header/DropdownButton', [
             'name' => $user->NOME,

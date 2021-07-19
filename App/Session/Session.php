@@ -1,7 +1,8 @@
 <?php 
 
 namespace App\Session;
-use App\Models\UsersRepository;
+
+use App\Utils\Messages;
 
 class Session{
 
@@ -30,6 +31,13 @@ class Session{
   
   public static function getUser(){
     return $_SESSION['user'] ? $_SESSION['user'] : null;
+  }
+
+  public static function logout(){
+
+    unset($_SESSION['user']);
+    Messages::setSuccess('Você foi deslogado!');
+
   }
 
 }

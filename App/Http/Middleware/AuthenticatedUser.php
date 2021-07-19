@@ -15,10 +15,11 @@ class AuthenticatedUser {
    */
   public function handle($request, $next){
     $user = Session::getUser();
+   
     if(empty($user)){
       Messages::setError('Você precisa está logado para acessar essa página', 'login');
-      // throw new \Exception('Você precisa está logado para acessar essa página',401);
     }
+
     return $next($request);
   }
 }

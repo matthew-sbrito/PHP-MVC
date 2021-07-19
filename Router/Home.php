@@ -11,9 +11,6 @@ $router->get('/',[
 ]);
 
 $router->get('/home',[
-    'middlewares' => [
-        'authenticatedAdmin' 
-    ], 
     function($request){
         return new Response(200,Pages\HomeController::getHome($request));
     }

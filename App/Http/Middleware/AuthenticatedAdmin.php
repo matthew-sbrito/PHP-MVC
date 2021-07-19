@@ -15,13 +15,13 @@ class AuthenticatedAdmin {
    */
   public function handle($request, $next){
     $user = Session::getUser();
+   
     if(empty($user)){
       Messages::setError('Você precisa está logado para acessar essa página!', 'about');
-      // throw new \Exception('Você precisa está logado para acessar essa página',401);
     }elseif(!$user->IS_ADMIN){
       Messages::setError('Você não é um administrador!', 'about');
-      // throw new \Exception('Você não é um administrador',401);
     }
+    
     return $next($request);
   }
 }

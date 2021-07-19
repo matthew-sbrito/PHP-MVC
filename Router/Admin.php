@@ -1,13 +1,17 @@
 <?php
 
 use \App\Http\Response;
-use \App\Controller\Admin\AdminController;
+use \App\Controller\Admin\UsersController;
 use \App\Controller\Admin\LoginController;
+use \App\Controller\Admin\HomeController;
 
 //ROTA HOME 
-$router->get('/admin',[
+$router->get('/admin/users',[
+    'middlewares' => [
+        'authenticatedAdmin' 
+    ], 
     function($request){
-        return new Response(200,AdminController::getView($request));
+        return new Response(200,UsersController::getView($request));
     }
 ]);
 
@@ -17,6 +21,15 @@ $router->get('/admin/login',[
     ],
     function($request){
         return new Response(200,LoginController::getViewLogin($request));
+    }
+]);
+
+$router->get('/admin/home',[
+    'middlewares' => [
+        'authenticatedAdmin'
+    ],
+    function($request){
+        return new Response(200,HomeController::getView($request));
     }
 ]);
 

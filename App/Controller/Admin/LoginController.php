@@ -36,8 +36,8 @@ class LoginController extends RenderPage{
 
     public static function logout($request){
       
-      session_destroy();
-      $request->getRouter()->redirect('/about');
+      Session::logout();
+      $request->getRouter()->redirect('/admin/login');
       
     }
   }
