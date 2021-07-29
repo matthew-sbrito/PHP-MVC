@@ -26,7 +26,7 @@ class LoginController extends RenderPage{
     public static function authenticatedLogin($request){
 
       $post = $request->getPostVars();
-      $user = UsersRepository::login($post['email'], $post['senha']);
+      $user = UsersRepository::login($post->EMAIL, $post->SENHA);
       if(is_object($user)){
         Session::setUser($user);
         Messages::setSuccess('Login efetuado!');

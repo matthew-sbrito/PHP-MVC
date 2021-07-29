@@ -97,12 +97,45 @@ class Request{
         return $this->queryParams;
     }
 
-     /** 
+      /** 
      *  Método responsável por retornar os parãmetros POST($_POST) da requisição
      *   @return array
      */
     public function getPostVars(){
-        return $this->postVars;
+        $this->getJsonObject();
+        return $this->sanitize();
+    }
+    /**
+     * Método responsável por pegar o post JSON do request e juntar com o postVars da classe Request.
+     *
+     * @return void
+     */
+    private function getJsonObject(){
+        $json = file_get_contents('php://input');
+        $obj = json_decode($json);
+        foreach($obj as $key => $value){
+            $this->postVars[$key] = $value;
+        }
+    }
+
+    /**
+     * Método responsável por limpar os dados do post, evitando injection, e deixando todos em UPPER
+     * @return object
+     */
+    private function sanitize() {
+
+            foreach($this->postVars as $key => $value) {
+                
+                $cleanValue = $value;
+                if(isset($cleanValue)) {
+                    $cleanValue = strip_tags(trim($cleanValue));
+                    $cleanValue = htmlentities($cleanValue, ENT_NOQUOTES);
+                    $cleanValue = html_entity_decode($cleanValue, ENT_NOQUOTES, 'UTF-8');
+                }
+                unset($this->postVars[$key]);
+                $this->postVars[strtoupper($key)] = $cleanValue;
+        }
+        return json_decode(json_encode($this->postVars));
     }
 
 }
