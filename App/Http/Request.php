@@ -101,8 +101,11 @@ class Request{
      *  Método responsável por retornar os parãmetros POST($_POST) da requisição
      *   @return array
      */
-    public function getPostVars(){
+    public function getPostVars($postValidated = null){
         $this->getJsonObject();
+        if($postValidated){
+            $this->validateParamsPost($postValidated);
+        }
         return $this->sanitize();
     }
     /**
@@ -113,8 +116,10 @@ class Request{
     private function getJsonObject(){
         $json = file_get_contents('php://input');
         $obj = json_decode($json);
-        foreach($obj as $key => $value){
-            $this->postVars[$key] = $value;
+        if($obj){
+            foreach($obj as $key => $value){
+                $this->postVars[$key] = $value;
+            }
         }
     }
 
@@ -123,7 +128,7 @@ class Request{
      * @return object
      */
     private function sanitize() {
-
+        
             foreach($this->postVars as $key => $value) {
                 
                 $cleanValue = $value;
@@ -133,9 +138,14 @@ class Request{
                     $cleanValue = html_entity_decode($cleanValue, ENT_NOQUOTES, 'UTF-8');
                 }
                 unset($this->postVars[$key]);
-                $this->postVars[strtoupper($key)] = $cleanValue;
+                $this->postVars[$key] = $cleanValue;
         }
         return json_decode(json_encode($this->postVars));
     }
-
+    private function validateParamsPost($postValidated){
+        foreach($postValidated as $key){
+            $array[strtoupper($key)] = $this->postVars[$key];
+        }
+        $this->postVars = $array;
+    }
 }

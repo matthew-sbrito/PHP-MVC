@@ -88,7 +88,7 @@ class Response{
                 break;
             case 'application/json':
                 if($this->httpCode == 200){
-                    echo json_encode(array("Status" =>  "Success", "Data"     => $this->content));
+                    echo json_encode($this->content, JSON_UNESCAPED_UNICODE, JSON_UNESCAPED_SLASHES);
                 }else{
                     echo json_encode(array("Status" =>  "Error",   "Message"  => $this->content));
                 }

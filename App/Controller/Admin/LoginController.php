@@ -5,6 +5,7 @@ use App\Utils\View;
 use App\Utils\Messages;
 use App\Session\Session;
 use App\Models\UsersRepository;
+use App\Models\Entity\User as EntityUser;
 
 class LoginController extends RenderPage{
 
@@ -24,13 +25,22 @@ class LoginController extends RenderPage{
     
 
     public static function authenticatedLogin($request){
+      $post = $request->getPostVars([
+        'email',
+        'senha'
+      ]);
+    
+      $user = UsersRepository::getUserByEmail($post->EMAIL);
 
-      $post = $request->getPostVars();
-      $user = UsersRepository::login($post->EMAIL, $post->SENHA);
-      if(is_object($user)){
-        Session::setUser($user);
-        Messages::setSuccess('Login efetuado!');
-        $request->getRouter()->redirect('/about');
+      if($user instanceof EntityUser){
+        if(password_verify($post->SENHA, $user->SENHA)){
+          Session::setUser($user);
+          Messages::setSuccess('Login efetuado!'); 
+          $request->getRouter()->redirect('/about');
+        }else{
+          Messages::setError('Dados Incorretos');
+          $request->getRouter()->redirect('/admin/login');
+        }
       }     
     }
 

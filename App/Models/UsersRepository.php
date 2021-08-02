@@ -1,8 +1,8 @@
 <?php
  
 namespace App\Models;
+use App\Models\Entity\User as EntityUser;
 use App\Database\Database;
-use App\Utils\Messages;
 
 class UsersRepository {
 
@@ -14,8 +14,12 @@ class UsersRepository {
     public $nascimento;
 
     public static function getAllUsers($where = null,$order = null, $limit = null){
-      return (new Database('USUARIO'))->selectCustom($where,$order,$limit)
-                                      ->fetchAll(\PDO::FETCH_CLASS, self::class);
+      $dbUsers = (new Database('USUARIO'))->selectCustom($where,$order,$limit);
+
+      while($entityUser = $dbUsers->fetchObject(EntityUser::class)){
+        $users[] = $entityUser;
+      }
+      return $users;
     }
 
     public static function getQuantityUsers($where = null){
@@ -23,16 +27,10 @@ class UsersRepository {
                                       ->fetchObject()
                                       ->qtd;
     }
-    public static function login($username,$password){
-      $user = (new Database('USUARIO'))->selectCustom("EMAIL = '${username}'")->fetchObject();
-      if(is_object($user)){
-        if(password_verify($password, $user->SENHA)){
-          return $user;
-        }else{
-          Messages::setError('Dados Incorretos', 'admin/login');
-        }
-      }else{
-        Messages::setError('Usuário inexistente', 'admin/login');
-      }
+    public static function getUserByEmail($email){
+      return (new Database('USUARIO'))->selectCustom("EMAIL = '${email}'")->fetchObject(EntityUser::class);
+    }
+    public static function getUserById($id){
+      return (new Database('USUARIO'))->selectCustom("COD = '${id}'")->fetchObject(EntityUser::class);
     }
 }

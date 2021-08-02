@@ -6,6 +6,7 @@ use \App\Controller;
 include('Home.php');
 include('About.php');
 include('Admin.php');           
+include('Api/User.php');           
 
 //ROTA DINÂMICA
 $router->get('/page/{idPage}/{action}',[

@@ -95,6 +95,6 @@ class Pagination{
    */
   public function getTotalPage(){
     return $this->pages;
-}
+  }
 
 }

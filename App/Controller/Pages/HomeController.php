@@ -14,21 +14,7 @@ class HomeController extends RenderPage{
      */
     public static function getHome($request){ 
         
-
-        $content = View::render('Home/Main',[]);
-        
-
-        $array = [5,2,4,6,1,3];
-        echo'<hr>';
-        sort($array);
-        echo implode(' ',$array); 
-        echo'<hr>';
-        rsort($array);
-        echo implode(' ',$array);
-      
-
-
-        exit;
+        $content = View::render('Home/Main',[]); 
         
         return parent::getPage('Home', $content, true);
      

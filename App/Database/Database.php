@@ -80,10 +80,7 @@ class Database{
    */
   private function setConnection(){
     try{
-      $this->connection = 
-      // new PDO('firebird:dbname='.self::$host.self::$name.';charset=utf8;dialect=3',self::$user,self::$pass);
-      new PDO("mysql:dbname=vagas;charset=utf8;dialect=3", 'root', 'Password123#@!');
-
+      $this->connection = new PDO('mysql:dbname='.self::$name.';charset=utf8;dialect=3',self::$user,self::$pass);
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
       die('ERROR: '.$e->getMessage());
@@ -112,7 +109,8 @@ class Database{
    * @param  array  $params
    * @return PDOStatement
    */
-  public function executeQuery($query,$params = []){
+  public function executeSelect($query,$params = []){
+    $params = self::getValuesOfObjects($params);    
     try{
       $statement = $this->connection->prepare($query);
       $statement->execute($params);
@@ -131,6 +129,8 @@ class Database{
    * @return integer ID inserido
    */
   public function insert($values){
+    
+    $values = self::getValuesOfObjects($values);
     //DADOS DA QUERY
     $fields = array_keys($values);
     $binds  = array_pad([],count($fields),'?');
@@ -189,7 +189,7 @@ class Database{
     
     //EXECUTA A QUERY
     $result = $this->execute($query);
-    
+    // RETURNA OS RESULTADOS DO SELECT
     while($finalResult = $result->fetchAll(PDO::FETCH_ASSOC)){
         return $finalResult;
     }
@@ -219,6 +219,7 @@ class Database{
    * @return boolean
    */
   public function update($where,$values){
+    $values = self::getValuesOfObjects($values);
     //DADOS DA QUERY
     $fields = array_keys($values);
 
@@ -247,6 +248,13 @@ class Database{
 
     //RETORNA SUCESSO
     return true;
+  }
+  private static function getValuesOfObjects($object){
+    if(!is_object($object)) return $object;
+    foreach($object as $key => $value){
+      $array[$key] = $value;
+    }
+    return $array;
   }
 
 }

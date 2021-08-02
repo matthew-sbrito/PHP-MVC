@@ -14,7 +14,8 @@ class CheckLogged {
    * @return  Response 
    */
   public function handle($request, $next){
-    $user = Session::isLogged();
+    $user = Session::getUser();
+    
     if($user){
       Messages::setError('Você já está logado');
       $request->getRouter()->redirect('/about');

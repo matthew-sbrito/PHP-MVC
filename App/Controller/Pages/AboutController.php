@@ -3,11 +3,13 @@ namespace App\Controller\Pages;
 
 use App\Utils\View;
 use App\Utils\RenderPage;
+use App\Models\Entity\User as EntityUser;
 use App\Models\UsersRepository;
 
 class AboutController extends RenderPage{
 
     private static function getUsersView(){
+        
         $users = UsersRepository::getAllUsers();
         $content = '';
         foreach($users as $user){
