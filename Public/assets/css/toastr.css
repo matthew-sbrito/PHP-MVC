@@ -1,0 +1,33 @@
+.toastr-c{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    width: 260px;
+    height: 60px;
+    border-radius: 6px;
+    position: fixed;
+    z-index: 1000;
+    bottom: 15px;
+    right: 35px;
+    animation: toastr .5s linear;
+    box-shadow: 5px 5px 10px rgb(0 0 0 / 10%);;
+}
+.toastr *, .toastr2 * {
+    font-weight: bold;
+}
+.toastr span, .toastr2 span{
+    color:#fff;
+}
+.toastr i, .toastr2 i {
+    font-size: 25px;
+    color: #fff;
+}
+@keyframes toastr {
+    from{
+        transform: scale(0.5);
+    }
+    to{
+        transform: scale(1);
+    }
+}

@@ -1,1 +1,0 @@
-<a class="btn btn-light" href="/admin/login">Sign in</a>

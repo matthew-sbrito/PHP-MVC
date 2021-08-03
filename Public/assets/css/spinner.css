@@ -1,0 +1,59 @@
+.spinner{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+.spinner > div{
+    position: fixed;
+    top: 45vh;
+    padding: 10px;
+}
+.spinner > span{
+    color: #fff;
+    font-size: 20px;
+    margin: 20px 10px 0px 20px;
+}
+.spinner > div >.one{
+    border-radius: 100%;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    animation: spinner 5s;
+}
+.spinner > div >.one >.two{
+    padding: 10px;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    animation: spinner 5s linear infinite;
+}
+.spinner > div >.one > .two > .three{
+    padding: 10px;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    animation: spinner 5s linear infinite;
+}
+.spinner >  div >.one > .two > .three> .four{
+    padding: 15px;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    animation: spinner 5s linear infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.10);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
