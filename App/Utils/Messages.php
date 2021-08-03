@@ -2,37 +2,55 @@
 
 namespace App\Utils;
 
-class Messages {
-  
-  public static function setError($msg, $page = null){
+class Messages
+{
 
-      $_SESSION['message'] = ['danger' => $msg];
-      if($page != null){
-        header('Location: /'. $page);
-        exit;
-      }
+  public static function setError($msg)
+  {
+    $_SESSION['message'] = ['error' => $msg];
   }
 
-  public static function setSuccess($msg, $page = null){
-  
+  public static function setSuccess($msg)
+  {
     $_SESSION['message'] = ['success' => $msg];
-    if($page != null){
-      header('Location: /'. $page);
-      exit;
-    }
+  }
+  public static function setWarning($msg)
+  {
+    $_SESSION['message'] = ['warning' => $msg];
   }
 
-  public static function getMessage(){
+  public static function getMessage()
+  {
 
     $msg = $_SESSION['message'];
-    $keyMsg = array_keys($msg);
     unset($_SESSION['message']);
-    
-    if(empty($msg)) return '';
-    
-    return View::render('Messages/Message',[
-      'type' => $keyMsg[0],
-      'textMessage' => $msg[$keyMsg[0]]
+
+    if (isset($msg)) {
+      $keyMsg = array_keys($msg);
+      $message = $msg[$keyMsg[0]];
+
+      $content = self::getToastr($keyMsg[0], $message);
+    }
+  
+    return $content ? $content : '';
+  }
+
+  private static function getToastr($status, $msg)
+  {
+    if ($status == 'error') {
+      $cor = 'background-color: rgba(240, 14, 14, 0.8);';
+      $icon = 'fas fa-ban';
+    } elseif ($status == 'success') {
+      $cor = 'background-color: rgba(34, 167, 34, 0.8);';
+      $icon = 'far fa-check-circle';
+    } elseif ($status == 'warning') {
+      $cor = 'background-color: rgba(249, 200, 78, 0.8);';
+      $icon = 'fas fa-exclamation-triangle';
+    }
+    return View::render('components/Toastr', [
+      'cor' => $cor,
+      'text' => $msg,
+      'icon' => $icon,
     ]);
   }
 }

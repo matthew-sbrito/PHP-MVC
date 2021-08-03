@@ -17,9 +17,11 @@ class AuthenticatedAdmin {
     $user = Session::getUser();
    
     if(empty($user)){
-      Messages::setError('Você precisa está logado para acessar essa página!', 'about');
+      Messages::setError('Você precisa está logado para acessar essa página!');
+      $request->getRouter()->redirect('/about');
     }elseif(!$user->IS_ADMIN){
       Messages::setError('Você não é um administrador!', 'about');
+      $request->getRouter()->redirect('/about');
     }
     
     return $next($request);

@@ -17,7 +17,8 @@ class AuthenticatedUser {
     $user = Session::getUser();
    
     if(empty($user)){
-      Messages::setError('Você precisa está logado para acessar essa página', 'login');
+      Messages::setError('Você precisa está logado para acessar essa página');
+      $request->getRouter()->redirect('/admin/login');
     }
 
     return $next($request);

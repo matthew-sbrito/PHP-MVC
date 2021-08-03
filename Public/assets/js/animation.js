@@ -36,7 +36,7 @@ class Spinner {
 const spinner = new Spinner();
 setTimeout(() =>{
   spinner.hide();
-}, 2000)
+}, 1000)
 
 
 
@@ -114,8 +114,8 @@ class Toastr {
 }
 
 const toastr = new Toastr();
-toastr.success('Bem vindo!', 3)
+// toastr.success('Bem vindo!', 3)
 
-// setTimeout(()=>{
-//   document.querySelector('.toastr2').setAttribute("hidden",true)
-// },4000)
+setTimeout(()=>{
+  document.querySelector('.toastr2').setAttribute("hidden",true)
+},3000)
