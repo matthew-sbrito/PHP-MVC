@@ -46,12 +46,24 @@ class Request{
     public function __construct($router){
         $this->router       = $router;
         $this->queryParams  = $_GET ?? [];
-        $this->postVars     = $_POST ?? [];
         $this->headers      = getallheaders();
         $this->httpMethod   = $_SERVER['REQUEST_METHOD'] ?? '';
         $this->setUri();
+        $this->setPostVars();
     }
     
+    private function setPostVars(){
+        if($this->httpMethod == 'GET') return false;
+        
+        foreach($_POST as $key => $value){
+            $array[strtoupper($key)] = $value;
+        }
+        
+        $this->postVars = $array ?? [];
+        $this->getJsonObject();
+        $this->sanitize();
+    }
+
     private function setUri(){
         $uri = $_SERVER['REQUEST_URI'] ?? '';
         $xUri = explode('?', $uri); 
@@ -99,14 +111,13 @@ class Request{
 
       /** 
      *  Método responsável por retornar os parãmetros POST($_POST) da requisição
-     *   @return array
+     *   @return object
      */
-    public function getPostVars($postValidated = null){
-        $this->getJsonObject();
+    public function getPostVars($postValidated = null): object{
         if($postValidated){
             $this->validateParamsPost($postValidated);
         }
-        return $this->sanitize();
+        return json_decode(json_encode($this->postVars));
     }
     /**
      * Método responsável por pegar o post JSON do request e juntar com o postVars da classe Request.
@@ -118,7 +129,7 @@ class Request{
         $obj = json_decode($json);
         if($obj){
             foreach($obj as $key => $value){
-                $this->postVars[$key] = $value;
+                $this->postVars[strtoupper($key)] = $value;
             }
         }
     }
@@ -128,24 +139,34 @@ class Request{
      * @return object
      */
     private function sanitize() {
-        
-            foreach($this->postVars as $key => $value) {
-                
-                $cleanValue = $value;
-                if(isset($cleanValue)) {
-                    $cleanValue = strip_tags(trim($cleanValue));
-                    $cleanValue = htmlentities($cleanValue, ENT_NOQUOTES);
-                    $cleanValue = html_entity_decode($cleanValue, ENT_NOQUOTES, 'UTF-8');
-                }
-                unset($this->postVars[$key]);
-                $this->postVars[$key] = $cleanValue;
+        foreach($this->postVars as $key => $value) {  
+            $cleanValue = $value;
+            if(isset($cleanValue)) {
+                $cleanValue = strip_tags(trim($cleanValue));
+                $cleanValue = htmlentities($cleanValue, ENT_NOQUOTES);
+                $cleanValue = html_entity_decode($cleanValue, ENT_NOQUOTES, 'UTF-8');
+            }
+            unset($this->postVars[$key]);
+            $this->postVars[$key] = $cleanValue;
         }
-        return json_decode(json_encode($this->postVars));
     }
+
     private function validateParamsPost($postValidated){
         foreach($postValidated as $key){
-            $array[strtoupper($key)] = $this->postVars[$key];
+            $key = strtoupper($key);
+            if($this->postVars[$key]){
+                $array[$key] = $this->postVars[$key];
+            }
         }
         $this->postVars = $array;
+    }
+    
+    public function postRequired($postRequired): void{
+        foreach($postRequired as $key){
+            $key = strtoupper($key);
+            if(!$this->postVars[$key]){
+                throw new \Exception("O parâmetro ${key} é obrigatório!");
+            }
+        }
     }
 }

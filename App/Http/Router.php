@@ -33,6 +33,11 @@ class Router{
      */
     private $request;
 
+    /**
+     *  Tipo de conteúdo que está sendo retornado 
+     * @var string
+     */
+    private $contentType = 'text/html';
 
     /**
      *  Método responsável por iniciar a classe
@@ -42,6 +47,15 @@ class Router{
         $this->request  = new Request($this);
         $this->url      = $url;
         $this->setPrefix();
+    }
+
+    /**
+     * Método para setar o tipo de conteudo da rota atual
+     *
+     * @param string
+     */
+    public function setContentType($contentType){
+        $this->contentType = $contentType;
     }
 
     /**
@@ -141,7 +155,7 @@ class Router{
         $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
         
         //RETORNA A URI SEM PREFIXO
-        return end($xUri);
+        return rtrim(end($xUri),'/');
     }
 
      /**
@@ -206,11 +220,24 @@ class Router{
                 $args[$name] = $route['variables'][$name] ?? '';
             }
             // RETORNA A EXECUÇÃO DA FILA DE MIDDLEWARES
-            return (new Middleware($route['middlewares'],$route['controller'],$args))
-                    ->next($this->request);            
-
+            return (new Middleware(
+                $route['middlewares'],
+                $route['controller'],
+                $args))->next($this->request);            
         }catch(Exception $e){
-            return new Response($e->getCode(), $e->getMessage());
+            return new Response(
+                $e->getCode(), 
+                $this->getErrorMessage($e->getMessage()), 
+                $this->contentType);
+        }
+    }
+
+    public function getErrorMessage($message){
+        switch($this->contentType){
+            case 'application/json':
+                return ['Error' => $message];
+            default:
+                return $message;
         }
     }
 

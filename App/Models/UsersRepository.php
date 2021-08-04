@@ -1,23 +1,16 @@
 <?php
  
 namespace App\Models;
-use App\Models\Entity\User as EntityUser;
+use App\Models\Entity\User;
 use App\Database\Database;
 
 class UsersRepository {
 
-    public $cod;
-    public $nome;
-    public $email;
-    public $senha;
-    public $sexo;
-    public $nascimento;
-
     public static function getAllUsers($where = null,$order = null, $limit = null){
       $dbUsers = (new Database('USUARIO'))->selectCustom($where,$order,$limit);
 
-      while($entityUser = $dbUsers->fetchObject(EntityUser::class)){
-        $users[] = $entityUser;
+      while($user = $dbUsers->fetchObject(User::class)){
+        $users[] = $user;
       }
       return $users;
     }
@@ -28,9 +21,21 @@ class UsersRepository {
                                       ->qtd;
     }
     public static function getUserByEmail($email){
-      return (new Database('USUARIO'))->selectCustom("EMAIL = '${email}'")->fetchObject(EntityUser::class);
+      return (new Database('USUARIO'))->selectCustom("EMAIL = '${email}'")->fetchObject(User::class);
     }
     public static function getUserById($id){
-      return (new Database('USUARIO'))->selectCustom("COD = '${id}'")->fetchObject(EntityUser::class);
+      return (new Database('USUARIO'))->selectCustom("COD = '${id}'")->fetchObject(User::class);
+    }
+    
+    public static function insert(array $user){
+      return (new Database('USUARIO'))->insert($user);
+    }
+    
+    public static function update(array $user, int $id){
+      return (new Database('USUARIO'))->update("COD = ${id}",$user);
+    }
+    
+    public static function delete(int $id){
+      return (new Database('USUARIO'))->delete("COD = ${id}");
     }
 }

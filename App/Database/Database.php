@@ -99,7 +99,12 @@ class Database{
       $statement->execute($params);
       return $statement;
     }catch(PDOException $e){
-      die('ERROR: '.$e->getMessage());
+      switch($e->getCode()) {
+        case 23000:
+          throw new \Exception('Dados já existentes!');
+        default:
+          die('ERROR: '.$e->getMessage());
+      }
     }
   }
 
@@ -143,7 +148,7 @@ class Database{
 
     // RETORNA MENSAGEM  
     if($result->rowCount() > 0){
-        return 'Data entered successfully!';
+        return true;
     }
 
   }

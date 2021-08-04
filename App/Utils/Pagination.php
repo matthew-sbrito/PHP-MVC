@@ -97,4 +97,8 @@ class Pagination{
     return $this->pages;
   }
 
+  public function getQntResults(){
+    return $this->results;
+  }
+
 }
