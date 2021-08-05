@@ -41,6 +41,6 @@ class Cache {
     $queryParams = $request->getQueryParams();
     $uri .= !empty($queryParams) ? '?'. http_build_query($queryParams) : '';
 
-    return preg_replace('/[^0-9a-zA-Z]/','-',ltrim($uri,'/'));
+    return rtrim('route-'.preg_replace('/[^0-9a-zA-Z]/','-',ltrim($uri,'/')),'-');
   }
 }
