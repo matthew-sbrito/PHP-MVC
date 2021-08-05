@@ -6,9 +6,8 @@ use App\Database\Database;
 
 class UsersRepository {
 
-    public static function getAllUsers($where = null,$order = null, $limit = null){
+    public static function getAllUsers($where = null, $order = 'COD DESC ', $limit = null){
       $dbUsers = (new Database('USUARIO'))->selectCustom($where,$order,$limit);
-
       while($user = $dbUsers->fetchObject(User::class)){
         $users[] = $user;
       }

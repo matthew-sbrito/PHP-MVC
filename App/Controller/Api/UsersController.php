@@ -87,7 +87,7 @@ class UsersController extends Api{
     ];
   }
   public static function updatePassword(Request $request, $id){
-    
+    $request->postRequired('SENHA');
     $post = $request->getPostVars([
       'SENHA'
     ]);
@@ -116,6 +116,12 @@ class UsersController extends Api{
     
     return[
       'success' => true
+    ];
+  }
+
+  public static function getCurrentUser($request){
+    return [
+      "user" => $request->user,
     ];
   }
 }
