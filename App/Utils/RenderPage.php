@@ -70,6 +70,17 @@ class RenderPage {
         return implode('&',$conditions);
     }
 
+    private static function getPaginationLink($page, $url, $label = null){
+        $queryParams['page'] = $page['page'];
+            $link = $url . http_build_query($queryParams);            
+                        
+            return View::render('Pagination/Link', [
+                'page' => $label ?? $page['page'],
+                'link' => $link,
+                'active' => $page['current'] ? 'active' : '',
+            ]);
+    }
+
     public static function getPagination($request, $pagination){
         $pages = $pagination->getPages();        
         
@@ -81,32 +92,40 @@ class RenderPage {
         $url = $request->getRouter()->getCurrentUrl() .'?'. $conditions . '&';
         
         $pagesFull = $pagination->getTotalPage();
+        
         $currentPage = $pagination->getCurrentPage();
 
-        foreach($pages as $page){
-            
-            $queryParams['page'] = $page['page'];
-            $link = $url . http_build_query($queryParams);            
-                        
-            $links .= View::render('Pagination/Link', [
-                'page' => $page['page'],
-                'link' => $link,
-                'active' => $page['current'] ? 'active' : '',
-            ]);
+        $limit = getenv('PAGINATION_LIMIT');
+        $middle = ceil($limit/2);
+        $start = $middle > $currentPage ? 0 : $currentPage - $middle;
+        $limit = $limit + $start;
+
+        if($limit > count($pages)){
+            $diff = $limit - count($pages);
+            $start -= $diff;
         }
-
-        $pPage = $currentPage - 1;
-        $nPage = $currentPage + 1;
-        $previous['page'] =  $pPage <= 0 ? 1 : $pPage;
-        $next['page'] = $nPage > $pagesFull ? $pagesFull : $nPage;
-
-        $linkPrevious = $url . http_build_query($previous) ;            
-        $linkNext = $url . http_build_query($next);
+        if($start > 0){
+            $links.= self::getPaginationLink(reset($pages), $url, '<<');
+        }
+        // PREVIOUS
+        // if($currentPage > 1){
+        //     $previous = $currentPage - 2;
+        //     $links.= self::getPaginationLink($pages[$previous], $url, '<');
+        // }
+        
+        foreach($pages as $page){
+            if($page['page'] <= $start) continue;
+            if($page['page'] > $limit){
+                //NEXT
+                //$links .= self::getPaginationLink($pages[$currentPage], $url,'>');
+                $links .= self::getPaginationLink(end($pages), $url,'>>');
+                break;
+            } 
+            $links .= self::getPaginationLink($page, $url);
+        }
         
         return View::render('Pagination/Box',[
-            'previous' => $linkPrevious,
             'links' => $links,
-            'next' => $linkNext,
         ]);
     }
 }

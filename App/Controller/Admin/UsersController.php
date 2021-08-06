@@ -32,7 +32,7 @@ class UsersController extends Page{
         $where = parent::getFilterByParams($queryParams);
         $quantity = UsersRepository::getQuantityUsers($where);
         
-        $pagination = new Pagination($quantity, $currentPage, 5);
+        $pagination = new Pagination($quantity, $currentPage, 2);
         $limit = $pagination->getLimit(); // responsavel por pegar os items corretos das paginas
 
         $users = UsersRepository::getAllUsers($where, ' NOME ASC ', $limit);
