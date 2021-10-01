@@ -7,7 +7,7 @@ date_default_timezone_set('America/Sao_Paulo');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");  
 
-define('TEMPLATE_PATH', realpath(dirname(__FILE__,2). '/Resources/Views/Templates'));
+define('TEMPLATE_PATH', realpath(dirname(__FILE__,2). '/resources/views/templates'));
 
 use App\Utils\Environment;
 use App\Database\Database;
