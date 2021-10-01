@@ -33,13 +33,12 @@ abstract class AbstractRepository implements IRepository {
     return $entities;
   }
   public function count($where = null){
-    $statement = $this->database->select($where, null, null, 'count(*) as QTD');
-    return $statement->fetchObject()->QTD;
+    return $this->database->select($where, null, null, 'count(*) as QTD')
+                                                  ->fetchObject()->QTD;
   }
   public function findOne($id){
     $where = "$this->id = $id";
-    $statement = $this->database->select($where);
-    return $statement->fetchObject($this->model);
+    return $this->database->select($where)->fetchObject($this->model);
   }
   public function create($model){
     $id = $this->database->insert($model, $this->id);
