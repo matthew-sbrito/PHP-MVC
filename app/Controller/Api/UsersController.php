@@ -19,11 +19,11 @@ class UsersController extends Api{
   public static function getAllUsersWithPagination(Request $request){
     return [
       'users' => self::getUsers($request, $pagination),
-      'pagination' => parent::getPagination($request, $pagination),
+      'pagination' => parent::getPagination($pagination),
     ];
   }
 
-  public static function getUsers(Request $request, ?Pagination &$pagination): array{
+  public static function getUsers(Request $request, Pagination &$pagination): array{
             
     $users = [];
     $queryParams = $request->getQueryParams();

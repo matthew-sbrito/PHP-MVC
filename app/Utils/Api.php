@@ -6,13 +6,13 @@ use App\Http\Request;
 use App\Database\Pagination;
 
 class Api {
-  public static function getPagination(Request $request, Pagination $pagination): array{
+  public static function getPagination(Pagination $pagination): array{
     return [
       [
-        'currentPage' => $pagination->getCurrentPage(),
-        'totalPages' => $pagination->getTotalPage(),
-        'items' => (int)$pagination->getQntResults(),
-        'offset' => $pagination->getLimit(),
+        'currentPage' => (int)$pagination->getCurrentPage(),
+        'totalPages'  => (int)$pagination->getTotalPage(),
+        'items'       => (int)$pagination->getCountResults(),
+        'offset'      => $pagination->getLimit(),
       ]
     ];
   }

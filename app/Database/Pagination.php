@@ -82,7 +82,7 @@ class Pagination{
   }
 
     /**
-   * Método responsável por retornar a página atual
+   * Método responsável por retornar a página atual.
    * @return int
    */
   public function getCurrentPage(){
@@ -90,14 +90,18 @@ class Pagination{
   }
 
    /**
-   * Método responsável por retornar a página atual
+   * Método responsável por retornar a quantidade de páginas.
    * @return int
    */
   public function getTotalPage(){
     return $this->pages;
   }
 
-  public function getQntResults(){
+  /**
+   * Método responsável por retornar a quantidade de resultados.
+   * @return  int
+   */
+  public function getCountResults(){
     return $this->results;
   }
 
