@@ -5,15 +5,9 @@ require_once __DIR__ . '/config/config.php';
 
 use \App\Http\Router;
 use \App\Utils\View;
-use \App\Http\Middleware\Queue as Middleware;
 
 //DEFINE O VALOR PADRÃO DAS VARIÁVEIS
 View::init(config('views'));
-
-//MIDDLEWARES PADRÕES (EXECUTADOS EM TODAS AS ROTAS)
-Middleware::setDefault([
- 'maintenance',
-]);
 
 // INICIA O ROUTER
 $router = new Router(URL);

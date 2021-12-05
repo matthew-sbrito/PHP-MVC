@@ -26,7 +26,11 @@ define('ASSETS', RESOURCES . '/assets');
 Database::config(config('database'));
 
 //MAPEAMENTO DOS MIDDLEWARES
-Middleware::setMap(config('middlewares'));
+$middlewares = config('middlewares');
+Middleware::setMap($middlewares['middlewares']);
+
+//MIDDLEWARES PADRÕES (EXECUTADOS EM TODAS AS ROTAS)
+Middleware::setDefault($middlewares['default']);
 
 // INCLUDE FOR SERVER WEBSOCKET
 config('websocket.server');

@@ -8,6 +8,12 @@ use \PDOException;
 class Database{
 
   /**
+   * Driver do banco de dados
+   * @var string
+   */
+  private static $driver;
+
+  /**
    * Host de conexão com o banco de dados
    * @var string
    */
@@ -58,11 +64,12 @@ class Database{
    * @param  integer $port
    */
   public static function config($config){
-    self::$host = $config['host'];
-    self::$name = $config['name'];
-    self::$user = $config['user'];
-    self::$pass = $config['pass'];
-    self::$port = $config['port'];
+    self::$driver = $config['driver'];
+    self::$host   = $config['host'];
+    self::$name   = $config['name'];
+    self::$user   = $config['user'];
+    self::$pass   = $config['pass'];
+    self::$port   = $config['port'];
   }
 
   /**
@@ -79,7 +86,9 @@ class Database{
    */
   private function setConnection(){
     try{
-      $this->connection = new PDO('mysql:dbname='.self::$name.';charset=utf8;dialect=3',self::$user,self::$pass);
+      $config = self::$driver.':dbname='.self::$host.self::$name.';charset=utf8;dialect=3';
+  
+      $this->connection = new PDO( $config, self::$user,self::$pass);
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
       die('ERROR: '.$e->getMessage());
