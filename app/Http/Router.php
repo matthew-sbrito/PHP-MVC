@@ -114,6 +114,7 @@ class Router{
      * @param array
      */
     public function get($route, $params = []){
+        $this->options($route);
         return $this->addRoute('GET', $route, $params);
     }
      
@@ -123,6 +124,7 @@ class Router{
      * @param array
      */
     public function post($route, $params = []){
+        $this->options($route);
         return $this->addRoute('POST', $route, $params);
     }
 
@@ -132,6 +134,7 @@ class Router{
      * @param array
      */
     public function put($route, $params = []){
+        $this->options($route);
         return $this->addRoute('PUT', $route, $params);
     }
 
@@ -141,7 +144,20 @@ class Router{
      * @param array
      */
     public function delete($route, $params = []){
+        $this->options($route);
         return $this->addRoute('DELETE', $route, $params);
+    }
+
+    /**
+     *  Método responsável por definir uma rota no OPTIONS 
+     * @param string
+     */
+    public function options($route){
+        return $this->addRoute('OPTIONS', $route,[
+            function(){
+                return new Response(200, true);
+            }
+        ]);
     }
 
     /**

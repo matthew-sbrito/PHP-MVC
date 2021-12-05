@@ -2,7 +2,6 @@
 
 namespace App\Database;
 
-use Exception;
 use \PDO;
 use \PDOException;
 
@@ -58,12 +57,12 @@ class Database{
    * @param  string  $pass
    * @param  integer $port
    */
-  public static function config($host,$name,$user,$pass,$port = 3306){
-    self::$host = $host;
-    self::$name = $name;
-    self::$user = $user;
-    self::$pass = $pass;
-    self::$port = $port;
+  public static function config($config){
+    self::$host = $config['host'];
+    self::$name = $config['name'];
+    self::$user = $config['user'];
+    self::$pass = $config['pass'];
+    self::$port = $config['port'];
   }
 
   /**

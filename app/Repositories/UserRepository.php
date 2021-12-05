@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\IRepository;
 use App\Database\Database;
 
-class UserRepository extends AbstractRepository implements IRepository {
+class UserRepository extends Repository implements IRepository {
 
   /**
    * Instância do banco de dados para realização do CRUD.

@@ -4,7 +4,6 @@ namespace App\Utils;
 
 class View
 {
-
     /**
      * Váriaveis padrões da view
      * @var array
@@ -20,17 +19,6 @@ class View
     {
         self::$vars = $vars;
     }
-    /**
-     *  Método responsável por retornar o conteúdo de uma view
-     * @param string $view
-     * @return string
-     */
-    private static function getContentView($view)
-    {
-        $file = __DIR__ . '/../../resources/views/' . $view . '.html';
-        return file_exists($file) ? $file : '';
-    }
-
 
     /**
      *      Método responsável por retornar o conteúdo renderizado de uma view.
@@ -42,9 +30,7 @@ class View
     public static function render($view, $params = [])
     {
         // CONTEUDO DA VIEW
-        $contentView = self::getContentView($view);
-
-        $contentView = file_get_contents($contentView);
+        $contentView = views($view);
 
         //Merge de váriaveis da view
         $vars   = array_merge(self::$vars, $params);
