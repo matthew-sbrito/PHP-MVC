@@ -28,3 +28,7 @@ function views(string $view){
   $file = __DIR__ . '/../resources/views/' . $view . '.html';
   return file_exists($file) ? file_get_contents($file) : '';
 }
+
+function env(string $key, $default = ''){
+  return getenv($key) ?? $default;
+}

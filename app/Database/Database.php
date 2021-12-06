@@ -87,8 +87,8 @@ class Database{
   private function setConnection(){
     try{
       $config = self::$driver.':dbname='.self::$host.self::$name.';charset=utf8;dialect=3';
-  
-      $this->connection = new PDO( $config, self::$user,self::$pass);
+     
+      $this->connection = new PDO( $config, self::$user, self::$pass );
       $this->connection->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }catch(PDOException $e){
       die('ERROR: '.$e->getMessage());
