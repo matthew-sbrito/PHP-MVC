@@ -8,5 +8,8 @@
     },
     "require": {
         "firebase/php-jwt": "^5.4"
+    },
+    "scripts": {
+        "dev" : "xdg-open 127.0.0.1:8000; php -S 127.0.0.1:8000;"
     }
 }

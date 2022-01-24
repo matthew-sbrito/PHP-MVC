@@ -1,3 +1,16 @@
 <h2>Seja Bem vindo</h2>
 
+@foreach($users)
+  <div>
+    <h3>Nome: <strong>{{name}}</strong></h3>
+    @if($age)
+      <h4>Idade: <strong>{{age}}</strong></h4>
+    @endif
+  </div>
+@endforeach 
+
+@if($current)
+  <span class="active">active</span>
+@endif
+
 <a href="about">Sobre/About</a>

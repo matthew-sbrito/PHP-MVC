@@ -1,6 +1,11 @@
 
 <h2>Users</h2>
 
-{{users}}
+@foreach({{users}})
+  <div>
+    <h3> User: <strong>{{name}}</strong> </h3>
+    <h4> Date: <strong>{{age}}</strong></h4>
+  </div>
+@endforeach
 
 <a href='{{URL}}/home'>Home</a>

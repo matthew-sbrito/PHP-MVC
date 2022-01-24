@@ -11,21 +11,16 @@ function config($filename){
 }
 
 /**
- * Function to get file resources
- * @param   string File to get
- * @return  mixed
- */
-function resources($filename){
-  return require RESOURCES . '/' . $filename;
-}
-
-/**
  * Function to render a view
  * @param   string View 
  * @return  string 
  */
 function views(string $view){
-  $file = __DIR__ . '/../resources/views/' . $view . '.html';
+  return resource($view, 'html');
+}
+
+function resource(string $resource, string $extension) {
+  $file = __DIR__ . '/../resources/views/' . $resource . '.' . $extension;
   return file_exists($file) ? file_get_contents($file) : '';
 }
 
